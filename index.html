@@ -6,16 +6,16 @@
 <title>The Founders Court</title>
 <style>
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  :root{ --ink:#1e293b; --indigo:#4338ca; --indigoD:#312e81; --amber:#f59e0b; --lime:#a3e635;
-    --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;--s400:#94a3b8;
-    --s500:#64748b;--s700:#334155;--s800:#1e293b;--s900:#0f172a;--ind100:#c7d2fe;--ind50:#eef2ff;}
+  :root{ --ink:#14361f; --indigo:#2e6b3e; --indigoD:#1f4d2c; --amber:#7b8b3a; --lime:#d9e86a;
+    --s50:#faf7ef;--s100:#f3eee0;--s200:#e6dfc9;--s300:#d4cbab;--s400:#9a9477;
+    --s500:#6f6a52;--s700:#46432f;--s800:#2c2a1d;--s900:#1c1b12;--ind100:#cfe6d2;--ind50:#eef5ec;}
   body{ font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--s50); color:var(--s900); line-height:1.4; }
   .wrap{ max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; background:var(--s50); position:relative; }
   .tnum{ font-variant-numeric:tabular-nums; }
   button{ font-family:inherit; cursor:pointer; border:none; background:none; }
   .header{ padding:22px 20px 16px; background:var(--indigoD); color:#fff; border-bottom-left-radius:24px; border-bottom-right-radius:24px; }
   .hrow{ display:flex; align-items:center; gap:8px; }
-  .logo{ width:28px; height:28px; border-radius:9px; background:var(--amber); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .logo{ width:28px; height:28px; border-radius:9px; background:var(--lime); display:flex; align-items:center; justify-content:center; font-size:15px; }
   .header h1{ font-size:18px; font-weight:800; letter-spacing:-.02em; line-height:1.1; }
   .sync{ margin-left:auto; display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--ind100); white-space:nowrap; }
   .sdot{ width:8px; height:8px; border-radius:50%; }
@@ -34,9 +34,9 @@
   .toggle button{ border-radius:999px; padding:6px 0; font-size:12px; font-weight:600; color:var(--s400); }
   .toggle button.on{ background:#fff; color:var(--indigo); box-shadow:0 1px 2px rgba(0,0,0,.08); }
   .champ{ margin-top:12px; border-radius:16px; background:var(--indigoD); color:#fff; padding:16px; position:relative; overflow:hidden; }
-  .champ.biz{ background:linear-gradient(135deg,#312e81,#5b21b6); }
-  .champ .blob{ position:absolute; right:-24px; top:-24px; width:96px; height:96px; border-radius:50%; background:rgba(245,158,11,.25); }
-  .champ .tag{ display:flex; align-items:center; gap:6px; color:#fcd34d; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
+  .champ.biz{ background:linear-gradient(135deg,#1f4d2c,#3f7a4a); }
+  .champ .blob{ position:absolute; right:-24px; top:-24px; width:96px; height:96px; border-radius:50%; background:rgba(217,232,106,.3); }
+  .champ .tag{ display:flex; align-items:center; gap:6px; color:#eaf2b3; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
   .champ .name{ font-size:23px; font-weight:800; letter-spacing:-.02em; }
   .champ .big{ font-size:30px; font-weight:800; line-height:1; }
   .champ .unit{ font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ind100); }
@@ -83,7 +83,7 @@
   nav{ position:sticky; bottom:0; z-index:20; max-width:480px; margin:0 auto; width:100%; border-top:1px solid var(--s200); background:rgba(255,255,255,.96); backdrop-filter:blur(8px); padding:8px; display:flex; align-items:center; justify-content:space-around; }
   .navbtn{ display:flex; flex:1; flex-direction:column; align-items:center; gap:2px; padding:4px 0; font-size:10px; font-weight:500; color:var(--s400); }
   .navbtn .ni{ font-size:18px; line-height:1; } .navbtn.on{ color:var(--indigo); }
-  .fab{ margin-top:-28px; width:56px; height:56px; border-radius:50%; background:var(--amber); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 8px 16px rgba(0,0,0,.15); }
+  .fab{ margin-top:-28px; width:56px; height:56px; border-radius:50%; background:var(--indigo); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 8px 16px rgba(0,0,0,.15); }
   .fab:disabled{ background:var(--s200); color:var(--s400); box-shadow:none; }
   .histwrap{ position:sticky; bottom:68px; z-index:10; max-width:480px; margin:0 auto; width:100%; display:flex; justify-content:center; gap:8px; pointer-events:none; }
   .histwrap .pill{ pointer-events:auto; display:inline-flex; align-items:center; gap:6px; box-shadow:0 1px 2px rgba(0,0,0,.05); margin-bottom:4px; }
@@ -97,6 +97,7 @@
   .tbox{ border-radius:16px; border:1px solid; padding:12px; } .tbox.a{ border-color:#c7d2fe; background:#eef2ff; } .tbox.b{ border-color:#fde68a; background:#fffbeb; }
   .tbox .lab{ display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--s500); margin-bottom:8px; }
   .tbox .dot{ width:8px; height:8px; border-radius:50%; } .tbox.a .dot{ background:var(--indigo); } .tbox.b .dot{ background:var(--amber); }
+  .tbox.b{ border-color:#cdd89a; background:#f6f7e8; }
   select.psel{ width:100%; border-radius:8px; border:1px solid var(--s200); background:#fff; padding:8px 10px; font-size:14px; outline:none; } .gap{ height:8px; }
   .stepbox{ border-radius:16px; border:1px solid var(--s200); padding:12px; } .stepbox .lab{ text-align:center; font-size:12px; font-weight:500; color:var(--s500); margin-bottom:8px; }
   .stepper{ display:flex; align-items:center; justify-content:space-between; } .stepbtn{ width:36px; height:36px; border-radius:8px; background:var(--s100); color:var(--s700); font-size:18px; font-weight:700; display:flex; align-items:center; justify-content:center; }
@@ -149,14 +150,17 @@
   var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
   var WEEKDAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var BIZ=[
+    {k:"biz_given",label:"Business given",icon:"💸",withReq:true,money:true},
+    {k:"biz_received",label:"Business received",icon:"💰",withReq:true,money:true},
     {k:"referral_given",label:"Referral given",icon:"🔗",withReq:true},
     {k:"referral_received",label:"Referral received",icon:"📥",withReq:true},
-    {k:"deal",label:"Deal closed",icon:"💰",withReq:false},
+    {k:"deal",label:"Deal closed",icon:"🤝",withReq:false},
     {k:"coffee",label:"Coffee / 1:1",icon:"☕",withReq:true},
     {k:"guest",label:"Guest brought",icon:"🙌",withReq:false},
     {k:"attendance",label:"Attended",icon:"✅",withReq:false}
   ];
   function bizDef(k){ return BIZ.find(function(x){return x.k===k;})||{label:k,icon:"•",withReq:false}; }
+  function rupee(n){ n=Number(n)||0; return "₹"+n.toLocaleString("en-IN"); }
 
   var now=new Date();
   var state={ members:[], games:[], activities:[], tab:"board", board:"court", boardMode:"points",
@@ -198,11 +202,18 @@
     return Object.keys(seq).map(function(id){var arr=seq[id],s=0;for(var i=arr.length-1;i>=0;i--){if(arr[i]===target)s++;else break;}return {id:id,name:nameOf(id),streak:s};}); }
   function moodEmoji(rank,total){ if(total<2)return "🎾"; if(rank===1)return "😎"; if(rank===total)return "😠"; if(rank===2)return "😄"; if(rank===3)return "🙂"; if(rank>total-2)return "😕"; return "😐"; }
 
-  /* business standings */
+  /* business standings — points reward GIVERS; received money is tracked but not ranked */
+  var ZERO_POINT={ referral_received:1, biz_received:1 }; // these types earn 0 ranking points
   function bizStats(acts){ var m={};
-    acts.forEach(function(a){ if(!m[a.memberId]) m[a.memberId]={id:a.memberId,total:0,counts:{}}; m[a.memberId].total++; m[a.memberId].counts[a.type]=(m[a.memberId].counts[a.type]||0)+1; });
+    function e(id){ if(!m[id]) m[id]={id:id,total:0,counts:{},given:0,received:0}; return m[id]; }
+    acts.forEach(function(a){ var r=e(a.memberId);
+      r.counts[a.type]=(r.counts[a.type]||0)+1;
+      if(!ZERO_POINT[a.type]) r.total++;            // ranking points: givers only
+      if(a.type==="biz_given") r.given+=Number(a.amount)||0;
+      if(a.type==="biz_received") r.received+=Number(a.amount)||0;
+    });
     return Object.keys(m).map(function(k){var r=m[k];r.name=nameOf(r.id);return r;}); }
-  function rankBiz(acts){ var arr=bizStats(acts); arr.sort(function(x,y){ return (y.total-x.total)||((y.counts.deal||0)-(x.counts.deal||0))||x.name.localeCompare(y.name); }); return arr; }
+  function rankBiz(acts){ var arr=bizStats(acts); arr.sort(function(x,y){ return (y.given-x.given)||(y.total-x.total)||(y.received-x.received)||x.name.localeCompare(y.name); }); return arr; }
   function bizBreakdown(counts){ return BIZ.filter(function(d){return counts[d.k];}).map(function(d){return d.icon+counts[d.k];}).join("  "); }
 
   /* ===== Analyst ===== */
@@ -218,19 +229,21 @@
     var hot=trailing(state.games,"W").filter(function(s){return s.streak>=2;}).sort(function(a,b){return b.streak-a.streak;});
     if(hot.length) cards.push({i:"🔥",t:"Hot Hand",b:hot[0].name+" is on a "+hot[0].streak+"-game win streak."});
     if(dA.length){
-      var c=biz[0]; cards.push({i:"⭐",t:"Top Connector",b:c.name+" was the most active networker with "+c.total+" logged activit"+(c.total===1?"y":"ies")+" — "+(bizBreakdown(c.counts)||"a strong showing")+"."});
+      var givenTotal=dA.filter(function(a){return a.type==="biz_given";}).reduce(function(s,a){return s+(Number(a.amount)||0);},0);
+      var c=biz[0]; cards.push({i:"🏆",t:"Top Giver",b:c.name+" gave the most business — "+rupee(c.given)+" sent to fellow members"+(c.received?(", and received "+rupee(c.received)):"")+"."});
+      if(givenTotal) cards.push({i:"💸",t:"Business Circulated",b:rupee(givenTotal)+" of business was passed around the room today. That is the engine of renewals."});
       var deals=dA.filter(function(a){return a.type==="deal";});
-      if(deals.length) cards.push({i:"💰",t:"Deals Closed",b:deals.length+" deal"+(deals.length===1?"":"s")+" transacted today — by "+deals.map(function(a){return nameOf(a.memberId);}).join(", ")+"."});
-      var refs=dA.filter(function(a){return a.type==="referral_given"||a.type==="referral_received";}).length;
-      if(refs) cards.push({i:"🔗",t:"Referral Flow",b:refs+" referral"+(refs===1?"":"s")+" exchanged across the group."});
-      var coffees=dA.filter(function(a){return a.type==="coffee";}).length;
-      if(coffees) cards.push({i:"☕",t:"Coffees",b:coffees+" one-on-one"+(coffees===1?"":"s")+" logged — relationships deepening off the court."});
+      if(deals.length) cards.push({i:"🤝",t:"Deals Closed",b:deals.length+" deal"+(deals.length===1?"":"s")+" transacted — by "+deals.map(function(a){return nameOf(a.memberId);}).join(", ")+"."});
+      var refs=dA.filter(function(a){return a.type==="referral_given";}).length;
+      if(refs) cards.push({i:"🔗",t:"Referrals Given",b:refs+" referral"+(refs===1?"":"s")+" passed to other members."});
+      var coffees=dA.filter(function(a){return a.type==="coffee";}).length/2;
+      if(coffees>=1) cards.push({i:"☕",t:"Coffees",b:Math.round(coffees)+" one-on-one"+(Math.round(coffees)===1?"":"s")+" logged — relationships deepening off the court."});
       var att=dA.filter(function(a){return a.type==="attendance";}).length;
       var guests=dA.filter(function(a){return a.type==="guest";}).length;
       if(att||guests) cards.push({i:"🙌",t:"Turnout",b:(att?att+" member"+(att===1?"":"s")+" checked in":"")+(att&&guests?", ":"")+(guests?guests+" guest"+(guests===1?"":"s")+" brought along":"")+"."});
     }
     var allBiz=rankBiz(state.activities);
-    if(allBiz.length){ var L=allBiz[0]; cards.push({i:"🏅",t:"Standings Watch",b:L.name+" leads the all-time business board with "+L.total+" activities. Consistency compounds."}); }
+    if(allBiz.length){ var Lb=allBiz[0]; cards.push({i:"🏅",t:"Standings Watch",b:Lb.name+" leads the all-time board with "+rupee(Lb.given)+" given. Generosity wins here."}); }
     cards.push({i:"🎤",t:"Host's Note",b:"Play hard, connect harder. The court warms people up — the referrals are where the magic happens."});
     return {date:date,headline:headline,cards:cards};
   }
@@ -278,17 +291,17 @@
   }
   function bizBoard(){
     var acts=monthActs(); var rk=rankBiz(acts);
-    if(rk.length===0) return emptyHTML("💼","No activity this period","Tap + then \u201cLog business activity\u201d to record referrals, deals, coffees and more.");
+    if(rk.length===0) return emptyHTML("💼","No activity this period","Tap + then \u201cLog business activity\u201d to record business given, referrals, deals and more.");
     var L=rk[0];
-    var html='<div class="champ biz"><div class="blob"></div><div class="tag">⭐ Top connector</div>'+
-      '<div class="fe"><div class="name">'+esc(L.name)+'</div><div style="text-align:right"><div class="big tnum">'+L.total+'</div><div class="unit">activities</div></div></div>'+
-      '<div class="line">'+(bizBreakdown(L.counts)||"—")+'</div></div>';
+    var html='<div class="champ biz"><div class="blob"></div><div class="tag">🏆 Top giver</div>'+
+      '<div class="fe"><div class="name">'+esc(L.name)+'</div><div style="text-align:right"><div class="big tnum">'+rupee(L.given)+'</div><div class="unit">given</div></div></div>'+
+      '<div class="line">received '+rupee(L.received)+' · '+L.total+' pts'+(bizBreakdown(L.counts)?' · '+bizBreakdown(L.counts):'')+'</div></div>';
     html+='<div class="rows">';
     rk.forEach(function(r,i){ var rank=i+1; var cls=rank===1?"g1":rank===2?"g2":rank===3?"g3":"";
       html+='<div class="row"><div class="rank '+cls+' tnum">'+rank+'</div>'+
-        '<div class="nm"><div class="n">'+esc(r.name)+'</div><div class="s">'+(bizBreakdown(r.counts)||"—")+'</div></div>'+
-        '<div class="val"><div class="v tnum">'+r.total+'</div><div class="u">pts</div></div></div>'; });
-    return html+'</div><div class="note">Ranked by total activities · '+acts.length+' logged this period</div>';
+        '<div class="nm"><div class="n">'+esc(r.name)+'</div><div class="s">received '+rupee(r.received)+' · '+r.total+' pts'+(bizBreakdown(r.counts)?' · '+bizBreakdown(r.counts):'')+'</div></div>'+
+        '<div class="val"><div class="v tnum">'+rupee(r.given)+'</div><div class="u">given</div></div></div>'; });
+    return html+'</div><div class="note">Ranked by business given · '+acts.length+' activit'+(acts.length===1?'y':'ies')+' logged this period</div>';
   }
 
   function logScreen(){
@@ -398,18 +411,22 @@
       '<button class="save" data-act="savegame" '+(complete?'':'disabled')+'>Save game</button></div></div>';
   }
   function bizSheet(am){
-    var d=state.bizDraft; var def=bizDef(d.type); var complete=d.type&&d.memberId;
+    var d=state.bizDraft; var def=bizDef(d.type); var needAmt=!!def.money; var complete=d.type&&d.memberId&&(!needAmt||(Number(d.amount)>0));
     function opts(sv,skip){ var o='<option value="">Member</option>'; am.forEach(function(p){ if(skip&&p.id===skip)return; o+='<option value="'+p.id+'" '+(sv===p.id?'selected':'')+'>'+esc(p.name)+'</option>'; }); return o; }
     var types=BIZ.map(function(b){ return '<button class="typebtn '+(d.type===b.k?'on':'')+'" data-act="biztype" data-type="'+b.k+'"><span class="te">'+b.icon+'</span>'+b.label+'</button>'; }).join("");
-    var withFld = def.withReq ? '<div class="fld"><div class="fl">With (optional)</div><select class="psel" data-act="bizpick" data-slot="withId">'+opts(d.withId,d.memberId)+'</select></div>' : '';
+    var amtFld = needAmt ? '<div class="fld"><div class="fl">Amount (₹)</div><input class="txtin" id="bizAmt" type="number" inputmode="numeric" min="0" placeholder="e.g. 50000" value="'+(d.amount||"")+'" data-act="bizamt" /></div>' : '';
+    var withLabel = (d.type==="biz_given")?"To which member":(d.type==="biz_received")?"From which member":"With (optional)";
+    var withFld = def.withReq ? '<div class="fld"><div class="fl">'+withLabel+'</div><select class="psel" data-act="bizpick" data-slot="withId">'+opts(d.withId,d.memberId)+'</select></div>' : '';
+    var creditNote = (d.type==="biz_given")?'<div class="note" style="text-align:left;margin-top:8px">This counts toward the giver\u2019s ranking. The receiver\u2019s \u201cbusiness received\u201d is recorded automatically.</div>'
+      : (d.type==="referral_given")?'<div class="note" style="text-align:left;margin-top:8px">Only the giver earns the point. The receiver is recorded but scores 0.</div>' : '';
     return '<div class="overlay" data-act="bg"><div class="sheet"><div class="grab"></div>'+
       '<div class="shead"><h2>💼 Log activity</h2><button class="closeb" data-act="closeall">&times;</button></div>'+
       '<div class="fld"><div class="fl">Activity</div><div class="typegrid">'+types+'</div></div>'+
-      '<div class="fld"><div class="fl">Member (gets the point)</div><select class="psel" data-act="bizpick" data-slot="memberId">'+opts(d.memberId,d.withId)+'</select></div>'+
-      withFld+
-      '<div class="fld"><div class="fl">Note (optional)</div><input class="txtin" id="bizNote" placeholder="e.g. referred a marketing client" value="'+esc(d.note||"")+'" data-act="biznote" /></div>'+
+      '<div class="fld"><div class="fl">Member (credited)</div><select class="psel" data-act="bizpick" data-slot="memberId">'+opts(d.memberId,d.withId)+'</select></div>'+
+      amtFld+withFld+creditNote+
+      '<div class="fld"><div class="fl">Note (optional)</div><input class="txtin" id="bizNote" placeholder="e.g. interior design project" value="'+esc(d.note||"")+'" data-act="biznote" /></div>'+
       '<div class="datebox"><span class="dl">📅 Date</span><input type="date" value="'+d.date+'" data-act="bizdate" /></div>'+
-      '<button class="save" data-act="savebiz" '+(complete?'':'disabled')+'>Log activity (1 pt)</button></div></div>';
+      '<button class="save" data-act="savebiz" '+(complete?'':'disabled')+'>Log activity</button></div></div>';
   }
 
   /* ===== Events ===== */
@@ -420,6 +437,7 @@
       if(act==="gdate"){ el.addEventListener("change",function(e){ state.gameDraft.date=e.target.value; }); return; }
       if(act==="bizdate"){ el.addEventListener("change",function(e){ state.bizDraft.date=e.target.value; }); return; }
       if(act==="biznote"){ el.addEventListener("input",function(e){ state.bizDraft.note=e.target.value; }); return; }
+      if(act==="bizamt"){ el.addEventListener("input",function(e){ state.bizDraft.amount=e.target.value; }); return; }
       if(act==="adate"){ el.addEventListener("change",function(e){ state._adate=e.target.value; render(); }); return; }
       if(act==="importfile"){ el.addEventListener("change",onImportFile); return; }
       el.addEventListener("click",onClick);
@@ -437,7 +455,7 @@
     else if(a==="alltime"){ state.view.allTime=!state.view.allTime; render(); }
     else if(a==="openrecord"){ if(activeMembers().length>=1){ state.showRecord=true; render(); } }
     else if(a==="newgame"){ if(activeMembers().length<4)return; state.showRecord=false; state.showGame=true; state.gameDraft={t1a:"",t1b:"",t2a:"",t2b:"",s1:0,s2:0,date:todayISO()}; render(); }
-    else if(a==="newbiz"){ state.showRecord=false; state.showBiz=true; state.bizDraft={type:"referral_given",memberId:"",withId:"",note:"",date:todayISO()}; render(); }
+    else if(a==="newbiz"){ state.showRecord=false; state.showBiz=true; state.bizDraft={type:"biz_given",memberId:"",withId:"",amount:"",note:"",date:todayISO()}; render(); }
     else if(a==="bg"){ if(e.target===e.currentTarget) closeAll(); }
     else if(a==="closeall"){ closeAll(); }
     else if(a==="step"){ var k=el.getAttribute("data-key"); state.gameDraft[k]=Math.max(0,(+state.gameDraft[k])+(+el.getAttribute("data-d"))); render(); }
@@ -492,22 +510,36 @@
   function saveGame(){ var d=state.gameDraft; var picks=[d.t1a,d.t1b,d.t2a,d.t2b].filter(Boolean); if(picks.length!==4||new Set(picks).size!==4)return;
     state.games.push({id:uid(),t1:[d.t1a,d.t1b],t2:[d.t2a,d.t2b],s1:+d.s1||0,s2:+d.s2||0,date:d.date}); closeAllNoRender(); state.tab="board"; state.board="court"; commit(); }
   function saveBiz(){ var d=state.bizDraft; if(!d.type||!d.memberId)return;
-    var note=(d.note||"").trim()||null;
-    if((d.type==="referral_given"||d.type==="referral_received"||d.type==="coffee") && d.withId){
-      // One action credits BOTH people, linked so they delete together
+    var def=bizDef(d.type); var note=(d.note||"").trim()||null; var amt=def.money?(Number(d.amount)||0):undefined;
+    if(def.money && !(amt>0)) return;
+    if(def.money && d.withId){
+      // One entry records both sides, linked. Giver ranks; receiver tracked at 0 points.
       var link=uid();
-      if(d.type==="coffee"){
-        state.activities.push({id:uid(),link:link,type:"coffee",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
-        state.activities.push({id:uid(),link:link,type:"coffee",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
-      } else if(d.type==="referral_given"){
-        state.activities.push({id:uid(),link:link,type:"referral_given",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
-        state.activities.push({id:uid(),link:link,type:"referral_received",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
-      } else { // referral_received entered: credit receiver + giver
-        state.activities.push({id:uid(),link:link,type:"referral_received",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
-        state.activities.push({id:uid(),link:link,type:"referral_given",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      if(d.type==="biz_given"){
+        state.activities.push({id:uid(),link:link,type:"biz_given",memberId:d.memberId,withId:d.withId,amount:amt,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link,type:"biz_received",memberId:d.withId,withId:d.memberId,amount:amt,note:note,date:d.date});
+      } else { // biz_received entered → also record the matching given for the other member
+        state.activities.push({id:uid(),link:link,type:"biz_received",memberId:d.memberId,withId:d.withId,amount:amt,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link,type:"biz_given",memberId:d.withId,withId:d.memberId,amount:amt,note:note,date:d.date});
       }
+    } else if((d.type==="referral_given"||d.type==="referral_received") && d.withId){
+      // Record both directions; only the GIVER scores (received type earns 0 points)
+      var link2=uid();
+      if(d.type==="referral_given"){
+        state.activities.push({id:uid(),link:link2,type:"referral_given",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link2,type:"referral_received",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      } else {
+        state.activities.push({id:uid(),link:link2,type:"referral_received",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link2,type:"referral_given",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      }
+    } else if(d.type==="coffee" && d.withId){
+      var link3=uid();
+      state.activities.push({id:uid(),link:link3,type:"coffee",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+      state.activities.push({id:uid(),link:link3,type:"coffee",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
     } else {
-      state.activities.push({id:uid(),type:d.type,memberId:d.memberId,withId:d.withId||null,note:note,date:d.date});
+      var rec={id:uid(),type:d.type,memberId:d.memberId,withId:d.withId||null,note:note,date:d.date};
+      if(def.money) rec.amount=amt;
+      state.activities.push(rec);
     }
     closeAllNoRender(); state.tab="board"; state.board="business"; commit(); }
   function closeAllNoRender(){ state.showRecord=false; state.showGame=false; state.showBiz=false; state.gameDraft=null; state.bizDraft=null; }
