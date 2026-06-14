@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Founders Court</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  :root{ --ink:#1e293b; --indigo:#4338ca; --indigoD:#312e81; --amber:#f59e0b; --lime:#a3e635;
+    --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;--s400:#94a3b8;
+    --s500:#64748b;--s700:#334155;--s800:#1e293b;--s900:#0f172a;--ind100:#c7d2fe;--ind50:#eef2ff;}
+  body{ font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--s50); color:var(--s900); line-height:1.4; }
+  .wrap{ max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; background:var(--s50); position:relative; }
+  .tnum{ font-variant-numeric:tabular-nums; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+  .header{ padding:22px 20px 16px; background:var(--indigoD); color:#fff; border-bottom-left-radius:24px; border-bottom-right-radius:24px; }
+  .hrow{ display:flex; align-items:center; gap:8px; }
+  .logo{ width:28px; height:28px; border-radius:9px; background:var(--amber); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .header h1{ font-size:18px; font-weight:800; letter-spacing:-.02em; line-height:1.1; }
+  .sync{ margin-left:auto; display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--ind100); white-space:nowrap; }
+  .sdot{ width:8px; height:8px; border-radius:50%; }
+  .meta{ margin-top:4px; font-size:13px; color:var(--ind100); }
+  main{ flex:1; padding:16px 16px 110px; }
+  .seg{ display:grid; grid-template-columns:1fr 1fr; gap:4px; background:var(--s100); border-radius:999px; padding:4px; }
+  .seg button{ border-radius:999px; padding:8px 0; font-size:13px; font-weight:700; color:var(--s400); display:flex; align-items:center; justify-content:center; gap:6px; }
+  .seg button.on{ background:#fff; color:var(--indigo); box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .msw{ margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .circ{ width:34px; height:34px; border-radius:50%; background:#fff; border:1px solid var(--s200); color:var(--s500); display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .circ:disabled{ opacity:.3; }
+  .msw .lbl{ flex:1; text-align:center; font-size:15px; font-weight:700; color:var(--s800); }
+  .pill{ border-radius:999px; padding:6px 12px; font-size:12px; font-weight:600; border:1px solid var(--s200); background:#fff; color:var(--s500); }
+  .pill.on{ border-color:var(--indigo); background:var(--indigo); color:#fff; }
+  .toggle{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:4px; background:var(--s100); border-radius:999px; padding:4px; }
+  .toggle button{ border-radius:999px; padding:6px 0; font-size:12px; font-weight:600; color:var(--s400); }
+  .toggle button.on{ background:#fff; color:var(--indigo); box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .champ{ margin-top:12px; border-radius:16px; background:var(--indigoD); color:#fff; padding:16px; position:relative; overflow:hidden; }
+  .champ.biz{ background:linear-gradient(135deg,#312e81,#5b21b6); }
+  .champ .blob{ position:absolute; right:-24px; top:-24px; width:96px; height:96px; border-radius:50%; background:rgba(245,158,11,.25); }
+  .champ .tag{ display:flex; align-items:center; gap:6px; color:#fcd34d; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
+  .champ .name{ font-size:23px; font-weight:800; letter-spacing:-.02em; }
+  .champ .big{ font-size:30px; font-weight:800; line-height:1; }
+  .champ .unit{ font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ind100); }
+  .champ .line{ margin-top:4px; font-size:12px; color:var(--ind100); }
+  .fe{ display:flex; align-items:flex-end; justify-content:space-between; margin-top:4px; }
+  .rows{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .row{ display:flex; align-items:center; gap:10px; border-radius:16px; border:1px solid var(--s200); background:#fff; padding:10px 12px; }
+  .row.first{ border-color:#fde68a; background:#fffbeb; }
+  .row.last{ border-color:#fecaca; background:#fef2f2; }
+  .rank{ width:28px; height:28px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; background:var(--s100); color:var(--s500); }
+  .rank.g1{ background:#facc15; color:#713f12; } .rank.g2{ background:var(--s300); color:var(--s700); } .rank.g3{ background:#b45309; color:#fff; }
+  .mood{ font-size:20px; line-height:1; flex:none; }
+  .nm{ flex:1; min-width:0; } .nm .n{ font-weight:600; color:var(--s900); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .nm .s{ font-size:11px; color:var(--s400); margin-top:1px; }
+  .val{ text-align:right; line-height:1; } .val .v{ font-size:20px; font-weight:800; color:var(--indigo); } .val .u{ font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:var(--s400); }
+  .note{ margin-top:16px; text-align:center; font-size:11px; color:var(--s400); }
+  .game{ border-radius:16px; border:1px solid var(--s200); background:#fff; padding:12px; }
+  .gtop{ display:flex; align-items:center; justify-content:space-between; } .gdate{ font-size:11px; font-weight:500; color:var(--s400); }
+  .gbody{ margin-top:6px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; }
+  .team .p{ font-size:14px; line-height:1.2; color:var(--s500); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .team.win .p{ font-weight:600; color:var(--s900); } .team.right{ text-align:right; }
+  .score{ display:flex; align-items:center; gap:6px; justify-content:center; } .sc{ font-size:24px; font-weight:800; color:var(--s400); } .sc.win{ color:var(--indigo); } .dash{ color:var(--s300); font-size:14px; }
+  .act{ display:flex; align-items:center; gap:10px; border-radius:16px; border:1px solid var(--s200); background:#fff; padding:10px 12px; }
+  .act .ic{ width:34px; height:34px; flex:none; border-radius:9px; background:var(--ind50); display:flex; align-items:center; justify-content:center; font-size:17px; }
+  .act .body{ flex:1; min-width:0; } .act .t{ font-size:14px; font-weight:600; color:var(--s900); } .act .sub{ font-size:11px; color:var(--s400); margin-top:1px; }
+  .iconbtn{ color:var(--s300); font-size:16px; padding:2px 4px; flex:none; }
+  .confirm{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--s500); flex:none; } .confirm .yes{ font-weight:700; color:#dc2626; } .confirm .no{ color:var(--s400); }
+  .addrow{ display:flex; gap:8px; } .addrow input{ flex:1; border-radius:12px; border:1px solid var(--s200); background:#fff; padding:10px 12px; font-size:14px; outline:none; }
+  .addrow input:focus{ border-color:var(--indigo); box-shadow:0 0 0 3px var(--ind50); }
+  .addrow button{ border-radius:12px; background:var(--indigo); padding:0 16px; font-size:14px; font-weight:600; color:#fff; }
+  .addrow button:disabled{ background:var(--s200); color:var(--s400); }
+  .member{ display:flex; align-items:center; gap:12px; border-radius:16px; border:1px solid var(--s200); background:#fff; padding:10px 12px; }
+  .avatar{ width:32px; height:32px; border-radius:50%; background:var(--ind50); color:var(--indigo); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
+  .member .pn{ flex:1; font-weight:500; color:var(--s800); } .ghost{ font-size:12px; font-weight:500; color:var(--s400); }
+  .removed{ display:flex; align-items:center; gap:12px; border-radius:16px; border:1px dashed var(--s200); background:var(--s50); padding:8px 12px; color:var(--s400); }
+  .removed .pn{ flex:1; font-size:14px; text-decoration:line-through; } .restore{ font-size:12px; font-weight:500; color:var(--indigo); }
+  .empty{ margin-top:40px; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px; }
+  .empty .ec{ width:56px; height:56px; border-radius:50%; background:var(--ind50); display:flex; align-items:center; justify-content:center; font-size:24px; }
+  .empty h3{ margin-top:12px; font-size:16px; font-weight:700; color:var(--s800); } .empty p{ margin-top:4px; font-size:14px; color:var(--s500); }
+  .empty .cta{ margin-top:16px; border-radius:12px; background:var(--indigo); padding:8px 16px; font-size:14px; font-weight:600; color:#fff; }
+  .arep{ display:flex; align-items:center; gap:8px; } .arep span.l{ font-size:13px; font-weight:600; color:var(--s500); }
+  .arep select{ margin-left:auto; border-radius:10px; border:1px solid var(--s200); background:#fff; padding:6px 10px; font-size:13px; outline:none; }
+  .acard{ display:flex; gap:10px; border-radius:16px; border:1px solid var(--s200); background:#fff; padding:12px; }
+  .acard .ai{ font-size:20px; line-height:1.1; flex:none; } .acard .at{ font-size:13px; font-weight:700; color:var(--s800); } .acard .ab{ margin-top:2px; font-size:13px; color:var(--s500); line-height:1.45; }
+  nav{ position:sticky; bottom:0; z-index:20; max-width:480px; margin:0 auto; width:100%; border-top:1px solid var(--s200); background:rgba(255,255,255,.96); backdrop-filter:blur(8px); padding:8px; display:flex; align-items:center; justify-content:space-around; }
+  .navbtn{ display:flex; flex:1; flex-direction:column; align-items:center; gap:2px; padding:4px 0; font-size:10px; font-weight:500; color:var(--s400); }
+  .navbtn .ni{ font-size:18px; line-height:1; } .navbtn.on{ color:var(--indigo); }
+  .fab{ margin-top:-28px; width:56px; height:56px; border-radius:50%; background:var(--amber); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 8px 16px rgba(0,0,0,.15); }
+  .fab:disabled{ background:var(--s200); color:var(--s400); box-shadow:none; }
+  .histwrap{ position:sticky; bottom:68px; z-index:10; max-width:480px; margin:0 auto; width:100%; display:flex; justify-content:center; gap:8px; pointer-events:none; }
+  .histwrap .pill{ pointer-events:auto; display:inline-flex; align-items:center; gap:6px; box-shadow:0 1px 2px rgba(0,0,0,.05); margin-bottom:4px; }
+  .overlay{ position:fixed; inset:0; z-index:50; display:flex; align-items:flex-end; justify-content:center; background:rgba(15,23,42,.45); }
+  .sheet{ width:100%; max-width:480px; border-top-left-radius:24px; border-top-right-radius:24px; background:#fff; padding:20px; max-height:92vh; overflow-y:auto; }
+  .grab{ margin:0 auto 12px; width:40px; height:4px; border-radius:999px; background:var(--s200); }
+  .shead{ display:flex; align-items:center; justify-content:space-between; } .shead h2{ font-size:18px; font-weight:800; } .closeb{ color:var(--s400); font-size:20px; padding:4px; }
+  .recbtn{ width:100%; margin-top:12px; border-radius:16px; border:1px solid var(--s200); background:#fff; padding:16px; display:flex; align-items:center; gap:12px; text-align:left; }
+  .recbtn:disabled{ opacity:.5; } .recbtn .ri{ font-size:24px; } .recbtn .rt{ font-size:15px; font-weight:700; color:var(--s900); } .recbtn .rd{ font-size:12px; color:var(--s500); margin-top:1px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+  .tbox{ border-radius:16px; border:1px solid; padding:12px; } .tbox.a{ border-color:#c7d2fe; background:#eef2ff; } .tbox.b{ border-color:#fde68a; background:#fffbeb; }
+  .tbox .lab{ display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--s500); margin-bottom:8px; }
+  .tbox .dot{ width:8px; height:8px; border-radius:50%; } .tbox.a .dot{ background:var(--indigo); } .tbox.b .dot{ background:var(--amber); }
+  select.psel{ width:100%; border-radius:8px; border:1px solid var(--s200); background:#fff; padding:8px 10px; font-size:14px; outline:none; } .gap{ height:8px; }
+  .stepbox{ border-radius:16px; border:1px solid var(--s200); padding:12px; } .stepbox .lab{ text-align:center; font-size:12px; font-weight:500; color:var(--s500); margin-bottom:8px; }
+  .stepper{ display:flex; align-items:center; justify-content:space-between; } .stepbtn{ width:36px; height:36px; border-radius:8px; background:var(--s100); color:var(--s700); font-size:18px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .stepval{ width:48px; text-align:center; font-size:24px; font-weight:800; color:var(--indigo); }
+  .fld{ margin-top:16px; } .fld .fl{ font-size:12px; font-weight:600; color:var(--s500); margin-bottom:6px; }
+  .typegrid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .typebtn{ border-radius:12px; border:1px solid var(--s200); background:#fff; padding:10px; display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--s700); text-align:left; }
+  .typebtn.on{ border-color:var(--indigo); background:var(--ind50); color:var(--indigo); }
+  .typebtn .te{ font-size:18px; }
+  .txtin{ width:100%; border-radius:10px; border:1px solid var(--s200); background:#fff; padding:10px 12px; font-size:14px; outline:none; }
+  .txtin:focus{ border-color:var(--indigo); }
+  .datebox{ margin-top:16px; display:flex; align-items:center; gap:8px; border-radius:12px; border:1px solid var(--s200); padding:10px 12px; }
+  .datebox .dl{ font-size:14px; color:var(--s500); } .datebox input{ margin-left:auto; border:none; outline:none; font-size:14px; color:var(--s700); background:transparent; }
+  .warn{ margin-top:8px; text-align:center; font-size:12px; color:#ef4444; }
+  .save{ margin-top:16px; width:100%; border-radius:12px; background:var(--indigo); padding:12px; font-size:14px; font-weight:600; color:#fff; } .save:disabled{ background:var(--s200); color:var(--s400); }
+</style>
+</head>
+<body>
+<div id="app" class="wrap"></div>
+<script>
+(function(){
+  /* ===== Supabase config — PASTE YOUR TWO VALUES BELOW ===== */
+  var SB_URL = "https://qzhkketdthubdiwfbmiv.supabase.co";   /* base project URL (no /rest/v1/) */
+  var SB_KEY = "sb_publishable_Mqbveuux8M5549qBrpx4Ow_u3p9ozHe";
+  /* ========================================================= */
+  var ROW = SB_URL + "/rest/v1/scores_state?id=eq.main";
+  var H = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json" };
+
+  function loadState(){
+    return fetch(ROW + "&select=data", { headers: H }).then(function(r){ if(!r.ok) throw new Error("load "+r.status); return r.json(); })
+      .then(function(rows){ var d=(rows&&rows[0]&&rows[0].data)?rows[0].data:{}; return {
+        members:Array.isArray(d.members)?d.members:[], games:Array.isArray(d.games)?d.games:[], activities:Array.isArray(d.activities)?d.activities:[],
+        backups:Array.isArray(d.backups)?d.backups:[] }; });
+  }
+  function saveState(st){
+    return fetch(ROW, { method:"PATCH", headers:Object.assign({},H,{Prefer:"return=minimal"}),
+      body:JSON.stringify({ data:{members:st.members,games:st.games,activities:st.activities,backups:st.backups||backups}, updated_at:new Date().toISOString() }) })
+      .then(function(r){ if(!r.ok) throw new Error("save "+r.status); });
+  }
+  /* keep up to 14 daily auto-snapshots inside the DB as a safety net */
+  function autoSnapshot(){
+    try{
+      var today=todayISO();
+      backups=(backups||[]).filter(function(b){return b.date!==today;});
+      backups.push({ date:today, members:state.members, games:state.games, activities:state.activities });
+      if(backups.length>14) backups=backups.slice(backups.length-14);
+    }catch(e){}
+  }
+
+  var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var WEEKDAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var BIZ=[
+    {k:"referral_given",label:"Referral given",icon:"🔗",withReq:true},
+    {k:"referral_received",label:"Referral received",icon:"📥",withReq:true},
+    {k:"deal",label:"Deal closed",icon:"💰",withReq:false},
+    {k:"coffee",label:"Coffee / 1:1",icon:"☕",withReq:true},
+    {k:"guest",label:"Guest brought",icon:"🙌",withReq:false},
+    {k:"attendance",label:"Attended",icon:"✅",withReq:false}
+  ];
+  function bizDef(k){ return BIZ.find(function(x){return x.k===k;})||{label:k,icon:"•",withReq:false}; }
+
+  var now=new Date();
+  var state={ members:[], games:[], activities:[], tab:"board", board:"court", boardMode:"points",
+    view:{year:now.getFullYear(),month:now.getMonth(),allTime:false},
+    showRecord:false, showGame:false, showBiz:false, gameDraft:null, bizDraft:null,
+    showRemoved:false, confirmDel:null, _adate:null, sync:"loading", showBackup:false };
+  var savingFlight=false, pendingSave=null, backups=[], loadedOk=false;
+
+  function uid(){ return "id-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8); }
+  function todayISO(){ var d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];}); }
+  function fmtDate(iso){ var p=iso.split("-").map(Number); return MONTHS[p[1]-1].slice(0,3)+" "+p[2]+", "+p[0]; }
+  function fullDate(iso){ var p=iso.split("-").map(Number); var d=new Date(p[0],p[1]-1,p[2]); return WEEKDAYS[d.getDay()]+", "+MONTHS[p[1]-1].slice(0,3)+" "+p[2]; }
+  function nameOf(id){ var p=state.members.find(function(x){return x.id===id;}); return p?p.name:"Unknown"; }
+  function activeMembers(){ return state.members.filter(function(p){return p.active!==false;}); }
+  function removedMembers(){ return state.members.filter(function(p){return p.active===false;}); }
+  function inView(date){ if(state.view.allTime) return true; var p=date.split("-").map(Number); return p[0]===state.view.year&&(p[1]-1)===state.view.month; }
+  function monthGames(){ return state.games.filter(function(g){return inView(g.date);}); }
+  function monthActs(){ return state.activities.filter(function(a){return inView(a.date);}); }
+
+  function commit(){ autoSnapshot(); render(); pushSave({members:state.members,games:state.games,activities:state.activities,backups:backups}); }
+  function pushSave(snap){ if(savingFlight){ pendingSave=snap; return; } savingFlight=true; setSync("saving");
+    saveState(snap).then(function(){setSync("synced");}).catch(function(){setSync("offline");})
+      .then(function(){ savingFlight=false; if(pendingSave){ var p=pendingSave; pendingSave=null; pushSave(p); } }); }
+  function setSync(s){ state.sync=s; if(document.getElementById("syncDot")) updateSync(); }
+
+  /* court standings */
+  function statsFor(gs){ var m={}; function e(id){ if(!m[id]) m[id]={id:id,pf:0,pa:0,g:0,w:0,l:0}; return m[id]; }
+    gs.forEach(function(g){ var a=+g.s1,b=+g.s2;
+      g.t1.forEach(function(id){var r=e(id);r.pf+=a;r.pa+=b;r.g++;if(a>b)r.w++;else if(a<b)r.l++;});
+      g.t2.forEach(function(id){var r=e(id);r.pf+=b;r.pa+=a;r.g++;if(b>a)r.w++;else if(b<a)r.l++;}); });
+    return Object.keys(m).map(function(k){var r=m[k];r.name=nameOf(r.id);r.diff=r.pf-r.pa;return r;}); }
+  function rankCourt(gs,mode){ var arr=statsFor(gs); arr.sort(function(x,y){ return mode==="wins"
+      ?(y.w-x.w)||(y.diff-x.diff)||(y.pf-x.pf)||x.name.localeCompare(y.name):(y.pf-x.pf)||(y.diff-x.diff)||(y.w-x.w)||x.name.localeCompare(y.name); }); return arr; }
+  function trailing(gs,target){ var ord=gs.slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;}); var seq={};
+    ord.forEach(function(g){ var a=+g.s1,b=+g.s2,aw=a>b,bw=b>a;
+      g.t1.forEach(function(id){(seq[id]=seq[id]||[]).push(aw?"W":bw?"L":"T");});
+      g.t2.forEach(function(id){(seq[id]=seq[id]||[]).push(bw?"W":aw?"L":"T");}); });
+    return Object.keys(seq).map(function(id){var arr=seq[id],s=0;for(var i=arr.length-1;i>=0;i--){if(arr[i]===target)s++;else break;}return {id:id,name:nameOf(id),streak:s};}); }
+  function moodEmoji(rank,total){ if(total<2)return "🎾"; if(rank===1)return "😎"; if(rank===total)return "😠"; if(rank===2)return "😄"; if(rank===3)return "🙂"; if(rank>total-2)return "😕"; return "😐"; }
+
+  /* business standings */
+  function bizStats(acts){ var m={};
+    acts.forEach(function(a){ if(!m[a.memberId]) m[a.memberId]={id:a.memberId,total:0,counts:{}}; m[a.memberId].total++; m[a.memberId].counts[a.type]=(m[a.memberId].counts[a.type]||0)+1; });
+    return Object.keys(m).map(function(k){var r=m[k];r.name=nameOf(r.id);return r;}); }
+  function rankBiz(acts){ var arr=bizStats(acts); arr.sort(function(x,y){ return (y.total-x.total)||((y.counts.deal||0)-(x.counts.deal||0))||x.name.localeCompare(y.name); }); return arr; }
+  function bizBreakdown(counts){ return BIZ.filter(function(d){return counts[d.k];}).map(function(d){return d.icon+counts[d.k];}).join("  "); }
+
+  /* ===== Analyst ===== */
+  function generateReport(date){
+    var dG=state.games.filter(function(g){return g.date===date;});
+    var dA=state.activities.filter(function(a){return a.date===date;});
+    var court=rankCourt(dG,"wins"); var biz=rankBiz(dA);
+    var cards=[]; var headline=dG.length+" game"+(dG.length===1?"":"s")+" · "+dA.length+" business activit"+(dA.length===1?"y":"ies")+" logged";
+    if(court.length){ var m=court[0]; cards.push({i:"🎾",t:"Court MVP",b:m.name+" led the pickleball with "+m.w+"W "+m.l+"L and "+m.pf+" points."}); }
+    if(dG.length){ var big=dG[0]; dG.forEach(function(g){ if(Math.abs((+g.s1)-(+g.s2))>Math.abs((+big.s1)-(+big.s2)))big=g; });
+      var a=+big.s1,b=+big.s2,wT=a>=b?big.t1:big.t2,lT=a>=b?big.t2:big.t1,bm=Math.abs(a-b);
+      cards.push({i:"💥",t:"Biggest Win",b: bm===0?"Closest of margins — every game stayed tight.":(wT.map(nameOf).join(" & ")+" beat "+lT.map(nameOf).join(" & ")+" "+Math.max(a,b)+"–"+Math.min(a,b)+".")}); }
+    var hot=trailing(state.games,"W").filter(function(s){return s.streak>=2;}).sort(function(a,b){return b.streak-a.streak;});
+    if(hot.length) cards.push({i:"🔥",t:"Hot Hand",b:hot[0].name+" is on a "+hot[0].streak+"-game win streak."});
+    if(dA.length){
+      var c=biz[0]; cards.push({i:"⭐",t:"Top Connector",b:c.name+" was the most active networker with "+c.total+" logged activit"+(c.total===1?"y":"ies")+" — "+(bizBreakdown(c.counts)||"a strong showing")+"."});
+      var deals=dA.filter(function(a){return a.type==="deal";});
+      if(deals.length) cards.push({i:"💰",t:"Deals Closed",b:deals.length+" deal"+(deals.length===1?"":"s")+" transacted today — by "+deals.map(function(a){return nameOf(a.memberId);}).join(", ")+"."});
+      var refs=dA.filter(function(a){return a.type==="referral_given"||a.type==="referral_received";}).length;
+      if(refs) cards.push({i:"🔗",t:"Referral Flow",b:refs+" referral"+(refs===1?"":"s")+" exchanged across the group."});
+      var coffees=dA.filter(function(a){return a.type==="coffee";}).length;
+      if(coffees) cards.push({i:"☕",t:"Coffees",b:coffees+" one-on-one"+(coffees===1?"":"s")+" logged — relationships deepening off the court."});
+      var att=dA.filter(function(a){return a.type==="attendance";}).length;
+      var guests=dA.filter(function(a){return a.type==="guest";}).length;
+      if(att||guests) cards.push({i:"🙌",t:"Turnout",b:(att?att+" member"+(att===1?"":"s")+" checked in":"")+(att&&guests?", ":"")+(guests?guests+" guest"+(guests===1?"":"s")+" brought along":"")+"."});
+    }
+    var allBiz=rankBiz(state.activities);
+    if(allBiz.length){ var L=allBiz[0]; cards.push({i:"🏅",t:"Standings Watch",b:L.name+" leads the all-time business board with "+L.total+" activities. Consistency compounds."}); }
+    cards.push({i:"🎤",t:"Host's Note",b:"Play hard, connect harder. The court warms people up — the referrals are where the magic happens."});
+    return {date:date,headline:headline,cards:cards};
+  }
+
+  /* ===== Render ===== */
+  function render(){ var am=activeMembers();
+    document.getElementById("app").innerHTML = header(am)+"<main>"+body(am)+"</main>"+nav(am)+histPills()+overlays(am);
+    wire(); }
+  function syncInfo(){ return ({loading:["#fde68a","Loading"],synced:["var(--lime)","Live"],saving:["#fde68a","Saving"],offline:["#fca5a5","Offline"]})[state.sync]||["var(--lime)","Live"]; }
+  function updateSync(){ var i=syncInfo(); var d=document.getElementById("syncDot"); var t=document.getElementById("syncTxt"); if(d){ d.style.background=i[0]; } if(t) t.textContent=i[1]; }
+  function header(am){ var i=syncInfo();
+    return '<div class="header"><div class="hrow"><div class="logo">🤝</div>'+
+      '<h1>The Founders Court</h1>'+
+      '<span class="sync"><span class="sdot" id="syncDot" style="background:'+i[0]+'"></span><span id="syncTxt">'+i[1]+'</span></span></div>'+
+      '<div class="meta">'+am.length+' member'+(am.length===1?'':'s')+' · '+state.games.length+' game'+(state.games.length===1?'':'s')+' · '+state.activities.length+' activit'+(state.activities.length===1?'y':'ies')+'</div></div>';
+  }
+  function monthSwitcher(){ var lbl=state.view.allTime?"All time":(MONTHS[state.view.month]+" "+state.view.year);
+    return '<div class="msw"><button class="circ" data-act="month" data-dir="-1" '+(state.view.allTime?'disabled':'')+'>&#8249;</button>'+
+      '<div class="lbl">'+lbl+'</div><button class="circ" data-act="month" data-dir="1" '+(state.view.allTime?'disabled':'')+'>&#8250;</button>'+
+      '<button class="pill '+(state.view.allTime?'on':'')+'" data-act="alltime">All time</button></div>'; }
+  function body(am){ if(state.tab==="board")return leaderboard(am); if(state.tab==="log")return logScreen(); if(state.tab==="report")return analyst(); return membersScreen(am); }
+
+  function leaderboard(am){
+    var html='<div class="seg"><button class="'+(state.board==="court"?'on':'')+'" data-act="board" data-b="court">🎾 Court</button>'+
+      '<button class="'+(state.board==="business"?'on':'')+'" data-act="board" data-b="business">💼 Business</button></div>';
+    html+=monthSwitcher();
+    return html+(state.board==="court"?courtBoard(am):bizBoard());
+  }
+  function courtBoard(am){
+    var gs=monthGames(); var isWins=state.boardMode==="wins"; var rk=rankCourt(gs,state.boardMode);
+    var html='<div class="toggle"><button class="'+(!isWins?'on':'')+'" data-act="mode" data-mode="points">By points</button><button class="'+(isWins?'on':'')+'" data-act="mode" data-mode="wins">By wins</button></div>';
+    if(rk.length===0) return html+emptyHTML("🎾","No games this period","Tap + to record a pickleball game. You need 4 members on court.");
+    var L=rk[0];
+    html+='<div class="champ"><div class="blob"></div><div class="tag">🏆 Court leader · '+(isWins?"wins":"points")+'</div>'+
+      '<div class="fe"><div class="name">'+esc(L.name)+'</div><div style="text-align:right"><div class="big tnum">'+(isWins?L.w:L.pf)+'</div><div class="unit">'+(isWins?"wins":"points")+'</div></div></div>'+
+      '<div class="line tnum">'+L.g+' games · '+L.w+'W '+L.l+'L · '+L.pf+' pts · '+(L.diff>=0?"+":"")+L.diff+' diff</div></div>';
+    html+='<div class="rows">';
+    rk.forEach(function(r,i){ var rank=i+1,total=rk.length; var cls=rank===1?"g1":rank===2?"g2":rank===3?"g3":"";
+      var rowcls=rank===1?"row first":(total>1&&rank===total)?"row last":"row";
+      var sub=isWins?(r.g+' games · '+r.pf+' pts · '+(r.diff>=0?"+":"")+r.diff):(r.g+' games · '+r.w+'W '+r.l+'L · '+(r.diff>=0?"+":"")+r.diff);
+      html+='<div class="'+rowcls+'"><div class="rank '+cls+' tnum">'+rank+'</div><div class="mood">'+moodEmoji(rank,total)+'</div>'+
+        '<div class="nm"><div class="n">'+esc(r.name)+'</div><div class="s tnum">'+sub+'</div></div>'+
+        '<div class="val"><div class="v tnum">'+(isWins?r.w:r.pf)+'</div><div class="u">'+(isWins?"wins":"pts")+'</div></div></div>'; });
+    return html+'</div><div class="note">Ranked by '+(isWins?"games won":"points scored")+' · '+gs.length+' game'+(gs.length===1?'':'s')+' this period</div>';
+  }
+  function bizBoard(){
+    var acts=monthActs(); var rk=rankBiz(acts);
+    if(rk.length===0) return emptyHTML("💼","No activity this period","Tap + then \u201cLog business activity\u201d to record referrals, deals, coffees and more.");
+    var L=rk[0];
+    var html='<div class="champ biz"><div class="blob"></div><div class="tag">⭐ Top connector</div>'+
+      '<div class="fe"><div class="name">'+esc(L.name)+'</div><div style="text-align:right"><div class="big tnum">'+L.total+'</div><div class="unit">activities</div></div></div>'+
+      '<div class="line">'+(bizBreakdown(L.counts)||"—")+'</div></div>';
+    html+='<div class="rows">';
+    rk.forEach(function(r,i){ var rank=i+1; var cls=rank===1?"g1":rank===2?"g2":rank===3?"g3":"";
+      html+='<div class="row"><div class="rank '+cls+' tnum">'+rank+'</div>'+
+        '<div class="nm"><div class="n">'+esc(r.name)+'</div><div class="s">'+(bizBreakdown(r.counts)||"—")+'</div></div>'+
+        '<div class="val"><div class="v tnum">'+r.total+'</div><div class="u">pts</div></div></div>'; });
+    return html+'</div><div class="note">Ranked by total activities · '+acts.length+' logged this period</div>';
+  }
+
+  function logScreen(){
+    var items=[];
+    monthGames().forEach(function(g){ items.push({kind:"game",date:g.date,obj:g}); });
+    monthActs().forEach(function(a){ items.push({kind:"act",date:a.date,obj:a}); });
+    items.sort(function(x,y){ return x.date<y.date?1:x.date>y.date?-1:0; });
+    var html=monthSwitcher();
+    if(items.length===0) return html+emptyHTML("🗒️","Nothing logged yet","Games and business activities will appear here, newest first.");
+    html+='<div class="rows">';
+    items.forEach(function(it){
+      if(it.kind==="game"){ var g=it.obj; var aWon=+g.s1>+g.s2,bWon=+g.s2>+g.s1;
+        var del=state.confirmDel===g.id?'<div class="confirm"><span>Delete?</span><button class="yes" data-act="delgame" data-id="'+g.id+'">Yes</button><button class="no" data-act="cancel">No</button></div>':'<button class="iconbtn" data-act="askdel" data-id="'+g.id+'">&#128465;</button>';
+        html+='<div class="game"><div class="gtop"><span class="gdate">🎾 '+fmtDate(g.date)+'</span>'+del+'</div><div class="gbody">'+
+          '<div class="team '+(aWon?'win':'')+'">'+g.t1.map(function(id){return '<div class="p">'+esc(nameOf(id))+'</div>';}).join("")+'</div>'+
+          '<div class="score"><span class="sc '+(aWon?'win':'')+' tnum">'+g.s1+'</span><span class="dash">&ndash;</span><span class="sc '+(bWon?'win':'')+' tnum">'+g.s2+'</span></div>'+
+          '<div class="team right '+(bWon?'win':'')+'">'+g.t2.map(function(id){return '<div class="p">'+esc(nameOf(id))+'</div>';}).join("")+'</div></div></div>';
+      } else { var a=it.obj; var d=bizDef(a.type);
+        var linkNote=a.link?" · ↔ both credited":"";
+        var sub=fmtDate(a.date)+(a.withId?(" · with "+esc(nameOf(a.withId))):"")+(a.note?(" · "+esc(a.note)):"")+linkNote;
+        var del=state.confirmDel===a.id?'<div class="confirm"><span>Delete?</span><button class="yes" data-act="delact" data-id="'+a.id+'">Yes</button><button class="no" data-act="cancel">No</button></div>':'<button class="iconbtn" data-act="askdel" data-id="'+a.id+'">&#128465;</button>';
+        html+='<div class="act"><div class="ic">'+d.icon+'</div><div class="body"><div class="t">'+esc(nameOf(a.memberId))+' — '+esc(d.label)+'</div><div class="sub">'+sub+'</div></div>'+del+'</div>';
+      }
+    });
+    return html+'</div>';
+  }
+
+  function analyst(){
+    if(state.games.length===0&&state.activities.length===0) return emptyHTML("📋","No data to analyze yet","Record some games and business activities and a session report will appear here.");
+    var dset={}; state.games.forEach(function(g){dset[g.date]=1;}); state.activities.forEach(function(a){dset[a.date]=1;});
+    var dates=Object.keys(dset).sort(function(a,b){return a<b?1:-1;});
+    if(!state._adate||dates.indexOf(state._adate)<0) state._adate=dates[0];
+    var rep=generateReport(state._adate);
+    var html='<div class="arep"><span class="l">Session report</span><select data-act="adate">'+dates.map(function(d){return '<option value="'+d+'" '+(d===state._adate?'selected':'')+'>'+fullDate(d)+'</option>';}).join("")+'</select></div>';
+    html+='<div class="champ" style="margin-top:12px"><div class="blob"></div><div class="tag">📋 Session Report</div><div class="name" style="margin-top:4px;font-size:20px">'+fullDate(rep.date)+'</div><div class="line">'+esc(rep.headline)+'</div></div>';
+    html+='<div class="rows">'+rep.cards.map(function(c){return '<div class="acard"><span class="ai">'+c.i+'</span><div><div class="at">'+esc(c.t)+'</div><div class="ab">'+esc(c.b)+'</div></div></div>';}).join("")+'</div>';
+    return html+'<div class="note">Generated from your recorded data</div>';
+  }
+
+  function membersScreen(am){
+    var html='<div class="addrow"><input id="newMember" placeholder="Add a member&hellip;" /><button data-act="addmember">Add</button></div>';
+    if(am.length===0){ html+=emptyHTML("👥","No members yet","Add the business owners in your group. You need 4 to record a doubles game; 1 to log business activity."); }
+    else { html+='<div class="rows" style="margin-top:16px">';
+      am.forEach(function(p){ var used=state.games.some(function(g){return g.t1.indexOf(p.id)>-1||g.t2.indexOf(p.id)>-1;})||state.activities.some(function(a){return a.memberId===p.id||a.withId===p.id;});
+        var act=used?'<button class="ghost" data-act="removemember" data-id="'+p.id+'">Remove</button>':'<button class="iconbtn" data-act="deletemember" data-id="'+p.id+'">&#128465;</button>';
+        html+='<div class="member"><div class="avatar">'+esc(p.name.charAt(0).toUpperCase())+'</div><div class="pn">'+esc(p.name)+'</div>'+act+'</div>'; });
+      html+='</div>';
+    }
+    var rem=removedMembers();
+    if(rem.length>0){ html+='<div style="margin-top:20px"><button class="ghost" data-act="togglerem">'+(state.showRemoved?"Hide":"Show")+' removed members ('+rem.length+')</button>';
+      if(state.showRemoved){ html+='<div class="rows" style="margin-top:8px">'+rem.map(function(p){return '<div class="removed"><div class="pn">'+esc(p.name)+'</div><button class="restore" data-act="restoremember" data-id="'+p.id+'">&#8634; Restore</button></div>';}).join("")+'</div>'; }
+      html+='</div>'; }
+    return html+'<div class="note" style="text-align:left;margin-top:20px">Removed members stay on past leaderboards but won\'t appear when recording new games or activities.</div>';
+  }
+  function emptyHTML(ic,t,b){ return '<div class="empty"><div class="ec">'+ic+'</div><h3>'+esc(t)+'</h3><p>'+esc(b)+'</p></div>'; }
+
+  function nav(am){
+    return '<nav><button class="navbtn '+(state.tab==="board"?'on':'')+'" data-act="tab" data-tab="board"><span class="ni">🏆</span>Leaderboards</button>'+
+      '<button class="fab" data-act="openrecord" '+(am.length>=1?'':'disabled')+'>+</button>'+
+      '<button class="navbtn '+(state.tab==="members"?'on':'')+'" data-act="tab" data-tab="members"><span class="ni">👥</span>Members</button></nav>';
+  }
+  function histPills(){ return '<div class="histwrap"><button class="pill '+(state.tab==="log"?'on':'')+'" data-act="ttab" data-t="log">🗒️ Activity log</button>'+
+    '<button class="pill '+(state.tab==="report"?'on':'')+'" data-act="ttab" data-t="report">📋 Report</button>'+
+    '<button class="pill" data-act="openbackup">💾 Backup</button></div>'; }
+
+  function overlays(am){
+    if(state.showGame) return gameSheet(am);
+    if(state.showBiz) return bizSheet(am);
+    if(state.showRecord) return recordChooser(am);
+    if(state.showBackup) return backupSheet();
+    return "";
+  }
+  function backupSheet(){
+    var rows=(backups||[]).slice().reverse().map(function(b){
+      return '<div class="member"><div class="avatar">💾</div><div class="pn">'+fullDate(b.date)+'<div style="font-size:11px;color:var(--s400)">'+(b.members?b.members.length:0)+' members · '+(b.games?b.games.length:0)+' games · '+(b.activities?b.activities.length:0)+' activities</div></div><button class="ghost" data-act="restoresnap" data-date="'+b.date+'">Restore</button></div>';
+    }).join("");
+    return '<div class="overlay" data-act="bg"><div class="sheet"><div class="grab"></div>'+
+      '<div class="shead"><h2>💾 Backup &amp; restore</h2><button class="closeb" data-act="closeback">&times;</button></div>'+
+      '<button class="recbtn" data-act="export"><span class="ri">⬇️</span><span><span class="rt">Export backup file</span><span class="rd">Download everything as a .json — store it safely</span></span></button>'+
+      '<button class="recbtn" data-act="importbtn"><span class="ri">⬆️</span><span><span class="rt">Import from file</span><span class="rd">Restore from a previously exported .json</span></span></button>'+
+      '<input type="file" id="importFile" accept="application/json,.json" style="display:none" />'+
+      '<div class="fld"><div class="fl">Automatic snapshots (last 14 days, stored in the database)</div>'+
+      (rows||'<div class="note" style="text-align:left">No snapshots yet — they appear after you log data.</div>')+'</div>'+
+      '<div class="note" style="text-align:left">Tip: export a file every couple of weeks and keep it in Drive or email. Snapshots protect against accidental edits; an exported file protects against everything.</div>'+
+      '</div></div>';
+  }
+  function recordChooser(am){
+    var canGame=am.length>=4;
+    return '<div class="overlay" data-act="bg"><div class="sheet"><div class="grab"></div>'+
+      '<div class="shead"><h2>Record</h2><button class="closeb" data-act="closeall">&times;</button></div>'+
+      '<button class="recbtn" data-act="newgame" '+(canGame?'':'disabled')+'><span class="ri">🎾</span><span><span class="rt">Pickleball game</span><span class="rd">'+(canGame?'Log a doubles match score':'Need 4+ members')+'</span></span></button>'+
+      '<button class="recbtn" data-act="newbiz"><span class="ri">💼</span><span><span class="rt">Business activity</span><span class="rd">Referral, deal, coffee, guest, attendance</span></span></button>'+
+      '</div></div>';
+  }
+  function gameSheet(am){
+    var d=state.gameDraft; var picks=[d.t1a,d.t1b,d.t2a,d.t2b]; var chosen=picks.filter(Boolean);
+    var distinct=new Set(chosen).size===chosen.length; var complete=chosen.length===4&&distinct;
+    function opts(sv){ var o='<option value="">Member</option>'; am.forEach(function(p){ var used=picks.indexOf(p.id)>-1&&p.id!==sv; if(!used)o+='<option value="'+p.id+'" '+(sv===p.id?'selected':'')+'>'+esc(p.name)+'</option>'; }); return o; }
+    function tbox(label,tint,ka,va,kb,vb){ return '<div class="tbox '+tint+'"><div class="lab"><span class="dot"></span>'+label+'</div><select class="psel" data-act="gpick" data-slot="'+ka+'">'+opts(va)+'</select><div class="gap"></div><select class="psel" data-act="gpick" data-slot="'+kb+'">'+opts(vb)+'</select></div>'; }
+    function sbox(label,key,val){ return '<div class="stepbox"><div class="lab">'+label+'</div><div class="stepper"><button class="stepbtn" data-act="step" data-key="'+key+'" data-d="-1">&minus;</button><div class="stepval tnum">'+val+'</div><button class="stepbtn" data-act="step" data-key="'+key+'" data-d="1">+</button></div></div>'; }
+    return '<div class="overlay" data-act="bg"><div class="sheet"><div class="grab"></div>'+
+      '<div class="shead"><h2>🎾 Record game</h2><button class="closeb" data-act="closeall">&times;</button></div>'+
+      '<div class="two">'+tbox("Team A","a","t1a",d.t1a,"t1b",d.t1b)+tbox("Team B","b","t2a",d.t2a,"t2b",d.t2b)+'</div>'+
+      '<div class="two">'+sbox("Team A score","s1",d.s1)+sbox("Team B score","s2",d.s2)+'</div>'+
+      '<div class="datebox"><span class="dl">📅 Date</span><input type="date" value="'+d.date+'" data-act="gdate" /></div>'+
+      ((!distinct&&chosen.length>0)?'<div class="warn">Each member can only be picked once.</div>':'')+
+      '<button class="save" data-act="savegame" '+(complete?'':'disabled')+'>Save game</button></div></div>';
+  }
+  function bizSheet(am){
+    var d=state.bizDraft; var def=bizDef(d.type); var complete=d.type&&d.memberId;
+    function opts(sv,skip){ var o='<option value="">Member</option>'; am.forEach(function(p){ if(skip&&p.id===skip)return; o+='<option value="'+p.id+'" '+(sv===p.id?'selected':'')+'>'+esc(p.name)+'</option>'; }); return o; }
+    var types=BIZ.map(function(b){ return '<button class="typebtn '+(d.type===b.k?'on':'')+'" data-act="biztype" data-type="'+b.k+'"><span class="te">'+b.icon+'</span>'+b.label+'</button>'; }).join("");
+    var withFld = def.withReq ? '<div class="fld"><div class="fl">With (optional)</div><select class="psel" data-act="bizpick" data-slot="withId">'+opts(d.withId,d.memberId)+'</select></div>' : '';
+    return '<div class="overlay" data-act="bg"><div class="sheet"><div class="grab"></div>'+
+      '<div class="shead"><h2>💼 Log activity</h2><button class="closeb" data-act="closeall">&times;</button></div>'+
+      '<div class="fld"><div class="fl">Activity</div><div class="typegrid">'+types+'</div></div>'+
+      '<div class="fld"><div class="fl">Member (gets the point)</div><select class="psel" data-act="bizpick" data-slot="memberId">'+opts(d.memberId,d.withId)+'</select></div>'+
+      withFld+
+      '<div class="fld"><div class="fl">Note (optional)</div><input class="txtin" id="bizNote" placeholder="e.g. referred a marketing client" value="'+esc(d.note||"")+'" data-act="biznote" /></div>'+
+      '<div class="datebox"><span class="dl">📅 Date</span><input type="date" value="'+d.date+'" data-act="bizdate" /></div>'+
+      '<button class="save" data-act="savebiz" '+(complete?'':'disabled')+'>Log activity (1 pt)</button></div></div>';
+  }
+
+  /* ===== Events ===== */
+  function wire(){
+    document.querySelectorAll("[data-act]").forEach(function(el){
+      var act=el.getAttribute("data-act");
+      if(act==="gpick"||act==="bizpick"){ el.addEventListener("change",function(e){ var slot=e.target.getAttribute("data-slot"); (act==="gpick"?state.gameDraft:state.bizDraft)[slot]=e.target.value; render(); }); return; }
+      if(act==="gdate"){ el.addEventListener("change",function(e){ state.gameDraft.date=e.target.value; }); return; }
+      if(act==="bizdate"){ el.addEventListener("change",function(e){ state.bizDraft.date=e.target.value; }); return; }
+      if(act==="biznote"){ el.addEventListener("input",function(e){ state.bizDraft.note=e.target.value; }); return; }
+      if(act==="adate"){ el.addEventListener("change",function(e){ state._adate=e.target.value; render(); }); return; }
+      if(act==="importfile"){ el.addEventListener("change",onImportFile); return; }
+      el.addEventListener("click",onClick);
+    });
+    var nm=document.getElementById("newMember"); if(nm){ nm.addEventListener("keydown",function(e){ if(e.key==="Enter") addMember(); }); }
+    var imp=document.getElementById("importFile"); if(imp){ imp.addEventListener("change",onImportFile); }
+  }
+  function closeAll(){ state.showRecord=false; state.showGame=false; state.showBiz=false; state.gameDraft=null; state.bizDraft=null; render(); }
+  function onClick(e){ var el=e.currentTarget, a=el.getAttribute("data-act");
+    if(a==="tab"){ state.tab=el.getAttribute("data-tab"); state.confirmDel=null; render(); }
+    else if(a==="ttab"){ var t=el.getAttribute("data-t"); state.tab=(state.tab===t?"board":t); state.confirmDel=null; render(); }
+    else if(a==="board"){ state.board=el.getAttribute("data-b"); render(); }
+    else if(a==="mode"){ state.boardMode=el.getAttribute("data-mode"); render(); }
+    else if(a==="month"){ stepMonth(+el.getAttribute("data-dir")); }
+    else if(a==="alltime"){ state.view.allTime=!state.view.allTime; render(); }
+    else if(a==="openrecord"){ if(activeMembers().length>=1){ state.showRecord=true; render(); } }
+    else if(a==="newgame"){ if(activeMembers().length<4)return; state.showRecord=false; state.showGame=true; state.gameDraft={t1a:"",t1b:"",t2a:"",t2b:"",s1:0,s2:0,date:todayISO()}; render(); }
+    else if(a==="newbiz"){ state.showRecord=false; state.showBiz=true; state.bizDraft={type:"referral_given",memberId:"",withId:"",note:"",date:todayISO()}; render(); }
+    else if(a==="bg"){ if(e.target===e.currentTarget) closeAll(); }
+    else if(a==="closeall"){ closeAll(); }
+    else if(a==="step"){ var k=el.getAttribute("data-key"); state.gameDraft[k]=Math.max(0,(+state.gameDraft[k])+(+el.getAttribute("data-d"))); render(); }
+    else if(a==="biztype"){ state.bizDraft.type=el.getAttribute("data-type"); render(); }
+    else if(a==="savegame"){ saveGame(); }
+    else if(a==="savebiz"){ saveBiz(); }
+    else if(a==="addmember"){ addMember(); }
+    else if(a==="removemember"){ setActive(el.getAttribute("data-id"),false); }
+    else if(a==="restoremember"){ setActive(el.getAttribute("data-id"),true); }
+    else if(a==="deletemember"){ state.members=state.members.filter(function(p){return p.id!==el.getAttribute("data-id");}); commit(); }
+    else if(a==="togglerem"){ state.showRemoved=!state.showRemoved; render(); }
+    else if(a==="askdel"){ state.confirmDel=el.getAttribute("data-id"); render(); }
+    else if(a==="cancel"){ state.confirmDel=null; render(); }
+    else if(a==="delgame"){ state.games=state.games.filter(function(g){return g.id!==el.getAttribute("data-id");}); state.confirmDel=null; commit(); }
+    else if(a==="openbackup"){ state.showBackup=true; render(); }
+    else if(a==="closeback"){ state.showBackup=false; render(); }
+    else if(a==="export"){ doExport(); }
+    else if(a==="importbtn"){ var f=document.getElementById("importFile"); if(f) f.click(); }
+    else if(a==="restoresnap"){ restoreSnap(el.getAttribute("data-date")); }
+  }
+
+  function doExport(){
+    try{
+      var payload={ app:"founders-court", exportedAt:new Date().toISOString(), members:state.members, games:state.games, activities:state.activities };
+      var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+      var url=URL.createObjectURL(blob); var a=document.createElement("a");
+      a.href=url; a.download="founders-court-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click();
+      document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    }catch(e){ alert("Export failed: "+e.message); }
+  }
+  function onImportFile(e){
+    var file=e.target.files&&e.target.files[0]; if(!file) return;
+    var reader=new FileReader();
+    reader.onload=function(){ try{
+      var d=JSON.parse(reader.result);
+      if(!d||!Array.isArray(d.members)||!Array.isArray(d.activities)) throw new Error("not a valid backup file");
+      if(!confirm("Replace ALL current data with this backup?\n("+d.members.length+" members, "+(d.games||[]).length+" games, "+d.activities.length+" activities)\n\nA snapshot of the current data is kept automatically.")) { e.target.value=""; return; }
+      autoSnapshot();
+      state.members=d.members; state.games=Array.isArray(d.games)?d.games:[]; state.activities=d.activities;
+      state.showBackup=false; commit();
+    }catch(err){ alert("Could not import: "+err.message); } e.target.value=""; };
+    reader.readAsText(file);
+  }
+  function restoreSnap(date){
+    var b=(backups||[]).find(function(x){return x.date===date;}); if(!b) return;
+    if(!confirm("Restore the snapshot from "+fullDate(date)+"?\nThis replaces current data (a new snapshot of the current state is kept).")) return;
+    autoSnapshot();
+    state.members=b.members||[]; state.games=b.games||[]; state.activities=b.activities||[];
+    state.showBackup=false; commit();
+  }
+  function stepMonth(dir){ if(state.view.allTime){ state.view.allTime=false; render(); return; } var m=state.view.month+dir,y=state.view.year; if(m<0){m=11;y--;} if(m>11){m=0;y++;} state.view.month=m; state.view.year=y; render(); }
+  function saveGame(){ var d=state.gameDraft; var picks=[d.t1a,d.t1b,d.t2a,d.t2b].filter(Boolean); if(picks.length!==4||new Set(picks).size!==4)return;
+    state.games.push({id:uid(),t1:[d.t1a,d.t1b],t2:[d.t2a,d.t2b],s1:+d.s1||0,s2:+d.s2||0,date:d.date}); closeAllNoRender(); state.tab="board"; state.board="court"; commit(); }
+  function saveBiz(){ var d=state.bizDraft; if(!d.type||!d.memberId)return;
+    var note=(d.note||"").trim()||null;
+    if((d.type==="referral_given"||d.type==="referral_received"||d.type==="coffee") && d.withId){
+      // One action credits BOTH people, linked so they delete together
+      var link=uid();
+      if(d.type==="coffee"){
+        state.activities.push({id:uid(),link:link,type:"coffee",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link,type:"coffee",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      } else if(d.type==="referral_given"){
+        state.activities.push({id:uid(),link:link,type:"referral_given",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link,type:"referral_received",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      } else { // referral_received entered: credit receiver + giver
+        state.activities.push({id:uid(),link:link,type:"referral_received",memberId:d.memberId,withId:d.withId,note:note,date:d.date});
+        state.activities.push({id:uid(),link:link,type:"referral_given",memberId:d.withId,withId:d.memberId,note:note,date:d.date});
+      }
+    } else {
+      state.activities.push({id:uid(),type:d.type,memberId:d.memberId,withId:d.withId||null,note:note,date:d.date});
+    }
+    closeAllNoRender(); state.tab="board"; state.board="business"; commit(); }
+  function closeAllNoRender(){ state.showRecord=false; state.showGame=false; state.showBiz=false; state.gameDraft=null; state.bizDraft=null; }
+  function addMember(){ var inp=document.getElementById("newMember"); if(!inp)return; var clean=inp.value.trim(); if(!clean)return;
+    if(state.members.some(function(p){return p.active!==false&&p.name.toLowerCase()===clean.toLowerCase();})){ inp.value=""; return; }
+    state.members.push({id:uid(),name:clean,active:true}); commit(); }
+  function setActive(id,val){ var p=state.members.find(function(x){return x.id===id;}); if(p)p.active=val; commit(); }
+
+  /* ===== Boot + live refresh ===== */
+  function boot(){ loadState().then(function(s){ state.members=s.members; state.games=s.games; state.activities=s.activities; backups=s.backups||[]; loadedOk=true; state.sync="synced"; render(); })
+    .catch(function(){ state.sync="offline"; render(); }); }
+  setInterval(function(){ if(savingFlight||pendingSave||state.showRecord||state.showGame||state.showBiz||state.showBackup) return;
+    loadState().then(function(s){ var ch=JSON.stringify([s.members,s.games,s.activities])!==JSON.stringify([state.members,state.games,state.activities]);
+      state.members=s.members; state.games=s.games; state.activities=s.activities; backups=s.backups||backups; loadedOk=true; if(state.sync==="offline") state.sync="synced"; if(ch) render(); else updateSync();
+    }).catch(function(){ state.sync="offline"; updateSync(); }); }, 5000);
+
+  render(); boot();
+})();
+</script>
+</body>
+</html>
